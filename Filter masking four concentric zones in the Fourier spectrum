@@ -1,0 +1,49 @@
+import numpy as np
+import skimage  # For image processing (or use PIL, etc.)
+import matplotlib.pyplot as plt
+
+def fourier_zone_filter(image, zone_code):
+    """
+    Applies a custom Fourier filter to an image based on a zone identifier string (e.g., '1010').
+
+    Parameters:
+    - image: Input 2D grayscale image as a NumPy array.
+    - zone_code: String or integer like '1010' indicating which horizontal frequency zones to keep (1 = keep, 0 = remove).
+
+    Returns:
+    - filtered_img: Image after inverse FFT of the filtered spectrum.
+    """
+
+    # Ensure the zone code is a string
+    zone_code = str(zone_code)
+    num_zones = len(zone_code)
+
+    # Convert image to float32 if needed
+    img = image.astype(np.float32)
+
+    # Apply FFT and shift
+    f = np.fft.fft2(img)
+    fshift = np.fft.fftshift(f)
+
+    rows, cols = img.shape
+    cx, cy = cols // 2, rows // 2
+
+    # Define zone thresholds along the frequency x-axis
+    thresholds = [int(cols * i / num_zones) for i in range(num_zones + 1)]
+
+    # Create a mask
+    mask = np.zeros((rows, cols), dtype=np.uint8)#The values are 8-bit unsigned integers (0–255), like in grayscale images
+
+    for i in range(num_zones):
+        if zone_code[i] == '1':
+            mask[:, thresholds[i]:thresholds[i+1]] = 1
+
+    # Apply mask
+    filtered_shift = fshift * mask
+
+    # Inverse shift and inverse FFT
+    f_ishift = np.fft.ifftshift(filtered_shift)
+    img_back = np.fft.ifft2(f_ishift)
+    img_back = np.abs(img_back)
+
+    return img_back.astype(np.uint8)
