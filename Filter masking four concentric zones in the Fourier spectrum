@@ -1,4 +1,9 @@
 import numpy as np
+import skimage.io as io
+import matplotlib.pyplot as plt
+from skimage import data
+
+# Define the Fourier Zone Filter function (from earlier)
 
 def fourier_concentric_zone_filter(image, zone_code):
     """
@@ -46,4 +51,29 @@ def fourier_concentric_zone_filter(image, zone_code):
 
     return img_back.astype(np.uint8)
 
-   
+
+# Load a sample image 
+image = data.astronaut()  # Example image from skimage 
+
+# Convert to grayscale (mean of RGB channels)
+image_gray = np.mean(image, axis=2).astype(np.uint8)
+
+# Define the zone code (e.g., '1010' to keep zones 1 and 3)
+zone_code = '1010'
+
+# Apply the Fourier zone filter
+filtered_image = fourier_concentric_zone_filter(image_gray, zone_code)
+
+# Display the original and filtered images
+fig, ax = plt.subplots(1, 2, figsize=(12, 6)) #means the figure will have a width of 12 inches and a height of 6 inches
+
+# Original image
+ax[0].imshow(image_gray, cmap='gray')
+ax[0].set_title('Original Image')
+ax[0].axis('off')
+
+# Filtered image
+ax[1].imshow(filtered_image, cmap='gray')
+ax[1].set_title('Filtered Image')
+
+plt.show()
