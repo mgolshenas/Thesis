@@ -3,7 +3,7 @@ import skimage.io as io
 import matplotlib.pyplot as plt
 from skimage import data
 
-# Define the Concentric Fourier Zone Filter function 
+# Define the Concentric Fourier Zone Filter function  
 
 def fourier_concentric_zone_filter(image, zone_code):
     """
