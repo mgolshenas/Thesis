@@ -1,4 +1,4 @@
-# fourier_synthesis.py
+# The inverse fourier_synthesis.py
 
 import numpy as np
 import matplotlib.pyplot as plt
