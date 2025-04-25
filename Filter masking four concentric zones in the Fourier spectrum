@@ -71,7 +71,33 @@ zone_code = '1010'
 # Apply the Fourier zone filter
 filtered_image, filtered_spectrum = fourier_concentric_zone_filter(image_gray, zone_code)
 
-# Display original, filtered image, and spectrum
+# Create distance grid outside the function
+rows, cols = image_gray.shape
+cx, cy = cols // 2, rows // 2
+y, x = np.ogrid[:rows, :cols]
+distance = np.sqrt((x - cx)**2 + (y - cy)**2)
+max_radius = np.max(distance)
+
+# Define zone thresholds
+num_zones = len(zone_code)
+thresholds = [max_radius * i / num_zones for i in range(num_zones + 1)]
+
+# Create zone mask for visualization
+zone_mask_visual = np.zeros_like(image_gray, dtype=np.uint8)
+for i in range(num_zones):
+    if zone_code[i] == '1':
+        zone_mask_visual[(distance >= thresholds[i]) & (distance < thresholds[i + 1])] = int(255 * (i + 1) / num_zones)
+
+
+
+
+# Visualize zone mask (same shape as frequency domain)
+zone_mask_visual = np.zeros_like(image_gray, dtype=np.uint8)
+for i in range(len(zone_code)):
+    if zone_code[i] == '1':
+        zone_mask_visual[(distance >= thresholds[i]) & (distance < thresholds[i + 1])] = int(255 * (i + 1) / len(zone_code))
+
+# Add the zone mask to the plot
 fig, ax = plt.subplots(1, 3, figsize=(18, 6))
 
 # Original image
@@ -85,8 +111,13 @@ ax[1].set_title('Filtered Image')
 ax[1].axis('off')
 
 # Filtered frequency spectrum
-ax[2].imshow(filtered_spectrum, cmap='gray')
-ax[2].set_title('Filtered Frequency Spectrum')
+#ax[2].imshow(filtered_spectrum, cmap='gray')
+#ax[2].set_title('Filtered Frequency Spectrum')
+#ax[2].axis('off')
+
+# Zone Mask Visualization
+ax[2].imshow(zone_mask_visual, cmap='gray')
+ax[2].set_title(f'Zone Mask ({zone_code})')
 ax[2].axis('off')
 
 plt.tight_layout()
