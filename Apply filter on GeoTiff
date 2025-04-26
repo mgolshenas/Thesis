@@ -1,0 +1,89 @@
+import numpy as np
+import rasterio
+from rasterio import Affine
+from rasterio.enums import Resampling
+import os
+
+# --- Your Fourier filter function ---
+def fourier_concentric_zone_filter(image, zone_code):
+    zone_code = str(zone_code)
+    num_zones = len(zone_code)
+
+    img = image.astype(np.float32)
+    rows, cols = img.shape
+    cx, cy = cols // 2, rows // 2
+
+    # FFT and shift
+    f = np.fft.fft2(img)
+    fshift = np.fft.fftshift(f)
+
+    # Create meshgrid of distances from center
+    y, x = np.ogrid[:rows, :cols]
+    distance = np.sqrt((x - cx)**2 + (y - cy)**2)
+    max_radius = np.max(distance)
+
+    # Define zone thresholds
+    thresholds = [max_radius * i / num_zones for i in range(num_zones + 1)]
+
+    # Create mask
+    mask = np.zeros_like(img, dtype=np.uint8)
+    for i in range(num_zones):
+        if zone_code[i] == '1':
+            mask[(distance >= thresholds[i]) & (distance < thresholds[i + 1])] = 1
+
+    # Apply filter in frequency domain
+    fshift_filtered = fshift * mask
+
+    # Inverse FFT to reconstruct image
+    f_ishift = np.fft.ifftshift(fshift_filtered)
+    img_back = np.fft.ifft2(f_ishift)
+    img_back = np.abs(img_back)
+
+    # Normalize to 0-255
+    img_back = 255 * (img_back - img_back.min()) / (img_back.ptp() + 1e-8)
+    img_back = img_back.astype(np.uint8)
+
+    return img_back
+
+# --- Main part: Load GeoTIFF, Apply Filters, Save Outputs ---
+
+# Path to your input GeoTIFF
+input_path = r"C:\Users\M\Downloads\GeogToWGS84GeoKey5.tif"
+
+# Output folder to save results
+output_folder = r"C:\Users\M\Downloads\Output"
+os.makedirs(output_folder, exist_ok=True)
+
+# List of zone codes (15 different combinations)
+zone_codes = [
+    '1000', '0100', '0010', '0001',
+    '1100', '1010', '1001',
+    '0110', '0101', '0011',
+    '1110', '1101', '1011', '0111',
+    '1111'  # All zones ON
+]
+
+# Open input GeoTIFF
+with rasterio.open(input_path) as src:
+    # Read the first band
+    image = src.read(1)
+
+    # For each zone code
+    for zone_code in zone_codes:
+        # Apply the Fourier filter
+        filtered_img = fourier_concentric_zone_filter(image, zone_code)
+
+        # Output filename
+        output_path = os.path.join(output_folder, f"filtered_zone_{zone_code}.tif")
+
+        # Save the result as GeoTIFF
+        profile = src.profile.copy()
+        profile.update(
+            dtype=rasterio.uint8,  # because our filtered_img is uint8
+            count=1  # one band
+        )
+
+        with rasterio.open(output_path, 'w', **profile) as dst:
+            dst.write(filtered_img, 1)
+
+        print(f"Saved: {output_path}")
