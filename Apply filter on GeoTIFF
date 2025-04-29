@@ -1,6 +1,5 @@
 import numpy as np
 import rasterio
-from rasterio import Affine
 from rasterio.enums import Resampling
 import os
 
