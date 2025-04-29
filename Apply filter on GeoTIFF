@@ -4,7 +4,7 @@ from rasterio import Affine
 from rasterio.enums import Resampling
 import os
 
-# --- Your Fourier filter function ---
+# ---  Fourier filter function ---
 def fourier_concentric_zone_filter(image, zone_code):
     zone_code = str(zone_code)
     num_zones = len(zone_code)
