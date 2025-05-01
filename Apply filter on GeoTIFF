@@ -3,8 +3,8 @@ import rasterio
 from rasterio.enums import Resampling
 import os
 
-# Import the 'fourier_concentric_zone_filter' function from 'Fourier_Filter.py'
-from FourierFilter import fourierconcentriczonefilter
+# Import the 'fourier_zone_filter' function from 'fourier_zone_filter.py'
+from fourier_zone_filter import fourier_concentric_zone_filter
 
 
 
@@ -35,7 +35,7 @@ with rasterio.open(input_path) as src:
 
     for zone_code in zone_codes:
         # Apply the Fourier filter
-        filtered_img, _ = fourierconcentriczonefilter(image, zone_code)
+        filtered_img = fourier_concentric_zone_filter(image, zone_code)
 
         # Output filename
         output_path = os.path.join(output_folder, f"filtered_img_{zone_code}.tif")
