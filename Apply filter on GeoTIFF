@@ -3,7 +3,7 @@ import rasterio
 from rasterio.enums import Resampling
 import os
 
-# Import the 'fourier_zone_filter' function from 'fourier_zone_filter.py'
+# Import the 'fourier_concentric_zone_filter' function from 'fourier_zone_filter.py'
 from fourier_zone_filter import fourier_concentric_zone_filter
 
 
@@ -14,19 +14,23 @@ from fourier_zone_filter import fourier_concentric_zone_filter
 
 # Path to your input GeoTIFF
 input_path = r"C:\Users\M\Downloads\GeogToWGS84GeoKey5.tif"
+input_path = input_path.encode('ascii', 'ignore').decode()
 
 # Output folder to save results
 output_folder = r"C:\Users\M\Downloads\Output"
 os.makedirs(output_folder, exist_ok=True)
 
 # List of zone codes (15 different combinations)
-zone_codes = [
-    '1000', '0100', '0010', '0001',
-    '1100', '1010', '1001',
-    '0110', '0101', '0011',
-    '1110', '1101', '1011', '0111',
-    '1111'  # All zones ON
-]
+#zone_codes = [
+    #'1000', '0100', '0010', '0001',
+   # '1100', '1010', '1001',
+  #  '0110', '0101', '0011',
+  #  '1110', '1101', '1011', '0111',
+  #  '1111'  # All zones ON
+#]
+
+# Automatically generate all 4-digit binary zone codes (from 0001 to 1111, excluding 0000)
+zone_codes = [format(i, '04b') for i in range(1, 16)]
 
 # Open input GeoTIFF
 with rasterio.open(input_path) as src:
@@ -51,4 +55,5 @@ with rasterio.open(input_path) as src:
             dst.write(filtered_img, 1)
 
             print(f"Saved: {output_path}")
-      
+     
+    
