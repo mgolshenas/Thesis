@@ -36,7 +36,7 @@ with rasterio.open(input_path) as src:
 
         # Save the result as GeoTIFF
         profile.update(
-        dtype=rasterio.float32,  # or uint16, if values are integers < 65535
+        dtype=rasterio.float32,  
         count=1,
         compress='lzw'  # or 'deflate'
         )
