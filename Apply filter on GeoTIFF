@@ -3,55 +3,49 @@ import rasterio
 from rasterio.enums import Resampling
 import os
 import gc
-
+import dask.array as da #To use less memory
 
 # Import the 'fourier_concentric_zone_filter' function from 'fourier_zone_filter.py'
 from fourier_zone_filter import fourier_concentric_zone_filter
 
-# --- Main Execution ---
+# --- Main part: Load GeoTIFF, Apply Filters, Save Outputs ---
 
+# Path to your input GeoTIFF
 input_path = r"C:\Users\M\Downloads\o41078a5.tif"
+input_path = input_path.encode('ascii', 'ignore').decode()
+
+# Output folder to save results
 output_folder = r"C:\Users\M\Downloads\Output"
 os.makedirs(output_folder, exist_ok=True)
 
+
+# Automatically generate all 4-digit binary zone codes (from 0001 to 1111, excluding 0000)
 zone_codes = [format(i, '04b') for i in range(1, 16)]
 
+# Open input GeoTIFF
 with rasterio.open(input_path) as src:
-    # Downsample to reduce memory usage (e.g., factor of 4)
-    image = src.read(1, out_shape=(
-        1,
-        src.height // 4,
-        src.width // 4
-    ), resampling=Resampling.bilinear)
+    # Read the first band
+    image = src.read(1)
 
     for zone_code in zone_codes:
-        try:
-            # Filter
-            filtered_img = fourier_concentric_zone_filter(image, zone_code)
+        # Apply the Fourier filter
+        filtered_img = fourier_concentric_zone_filter(image, zone_code)
 
-            # Save
-            output_path = os.path.join(output_folder, f"filtered_zone_{zone_code}.tif")
-            profile = src.profile.copy()
-            profile.update({
-                'dtype': rasterio.uint8,
-                'height': filtered_img.shape[0],
-                'width': filtered_img.shape[1],
-                'count': 1
-            })
+        # Output filename
+        output_path = os.path.join(output_folder, f"filtered_img_{zone_code}.tif")
 
-            with rasterio.open(output_path, 'w', **profile) as dst:
-                dst.write(filtered_img, 1)
+        # Save the result as GeoTIFF
+        profile = src.profile.copy()
+        profile.update(
+        dtype=rasterio.uint8,
+        count=1
+        )
+
+        with rasterio.open(output_path, 'w', **profile) as dst:
+            dst.write(filtered_img, 1)
 
             print(f"Saved: {output_path}")
-
-            # Cleanup
-            del filtered_img
-            gc.collect()
-
-        except MemoryError:
-            print(f"Memory error with zone: {zone_code}")
-
-
+   
 
     
 
