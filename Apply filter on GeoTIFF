@@ -8,6 +8,7 @@ import dask.array as da #To use less memory
 # Import the 'fourier_concentric_zone_filter' function from 'fourier_zone_filter.py'
 from fourier_zone_filter import fourier_concentric_zone_filter
 
+  
 # --- Main part: Load GeoTIFF, Apply Filters, Save Outputs ---
 
 # Path to your input GeoTIFF
@@ -35,18 +36,28 @@ with rasterio.open(input_path) as src:
         output_path = os.path.join(output_folder, f"filtered_img_{zone_code}.tif")
 
         # Save the result as GeoTIFF
-        profile = src.profile.copy()
         profile.update(
-        dtype=rasterio.uint8,
-        count=1
+        dtype=rasterio.float32,  # or uint16, if values are integers < 65535
+        count=1,
+        compress='lzw'  # or 'deflate'
         )
+
+ # Open compressed file and uncompress
+#with rasterio.open("compressed.tif") as src:
+    #data = src.read()
+    #profile = src.profile.copy()
+    #profile.update(compress=None)  # remove compression
+
+# Save uncompressed
+#with rasterio.open("uncompressed.tif", "w", **profile) as dst:
+    #dst.write(data)
+       
 
         with rasterio.open(output_path, 'w', **profile) as dst:
             dst.write(filtered_img, 1)
 
             print(f"Saved: {output_path}")
    
-
     
 
 
