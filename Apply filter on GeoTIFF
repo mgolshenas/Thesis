@@ -1,6 +1,5 @@
 import numpy as np
 import rasterio
-from rasterio.enums import Resampling
 import os
 import gc
 import dask.array as da #To use less memory
