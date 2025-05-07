@@ -1,4 +1,5 @@
 import numpy as np
+import skimage.io as io
 import matplotlib.pyplot as plt
 from skimage import data
 
@@ -35,7 +36,7 @@ def fourier_concentric_zone_filter(image, zone_code):
     thresholds = [max_radius * i / num_zones for i in range(num_zones + 1)]
 
     # Create mask
-    mask = np.zeros_like(img, dtype=np.uint8)
+    mask = np.zeros_like(img, dtype=np.float32)
     for i in range(num_zones):
         if zone_code[i] == '1':
             mask[(distance >= thresholds[i]) & (distance < thresholds[i + 1])] = 1
@@ -45,8 +46,7 @@ def fourier_concentric_zone_filter(image, zone_code):
 
     # Create log-magnitude spectrum for visualization
     spectrum = np.log(1 + np.abs(fshift_filtered)) # use log to compress the huge range of values in the spectrum so it’s visible
-    spectrum = 255 * (spectrum - spectrum.min()) / (np.ptp(spectrum) + 1e-8)
-
+    spectrum = 255 * (spectrum - spectrum.min()) / (np.ptp(spectrum) + 1e-8) #normalizing the image 
    #1e-8 to avoid dividing by zero in case the image has no variation (e.g., it's all black or white).
     spectrum = spectrum.astype(np.uint8)
 
@@ -55,7 +55,7 @@ def fourier_concentric_zone_filter(image, zone_code):
     img_back = np.fft.ifft2(f_ishift)
     img_back = np.abs(img_back)
     img_back = 255 * (img_back - img_back.min()) / (np.ptp(img_back) + 1e-8) #ptp(peak to peak)img_back.max() - img_back.min()
-    img_back = img_back.astype(np.uint8)
+    img_back = img_back.astype(np.float32)
 
     return img_back, spectrum
 
@@ -64,7 +64,7 @@ def fourier_concentric_zone_filter(image, zone_code):
 image = data.astronaut()  # Example image from skimage 
 
 # Convert to grayscale (mean of RGB channels)
-image_gray = np.mean(image, axis=2).astype(np.uint8)
+image_gray = np.mean(image, axis=2).astype(np.float32)
 
 # Define the zone code (e.g., '1010' to keep zones 1 and 3)
 zone_code = '1010'
@@ -84,7 +84,7 @@ num_zones = len(zone_code)
 thresholds = [max_radius * i / num_zones for i in range(num_zones + 1)]
 
 # Create zone mask for visualization
-zone_mask_visual = np.zeros_like(image_gray, dtype=np.uint8)
+zone_mask_visual = np.zeros_like(image_gray, dtype=np.float32)
 for i in range(num_zones):
     if zone_code[i] == '1':
         zone_mask_visual[(distance >= thresholds[i]) & (distance < thresholds[i + 1])] = int(255 * (i + 1) / num_zones)
@@ -92,8 +92,8 @@ for i in range(num_zones):
 
 
 
-# Visualize zone mask (same shape as frequency domain)
-zone_mask_visual = np.zeros_like(image_gray, dtype=np.uint8)
+# Visualize zone mask 
+zone_mask_visual = np.zeros_like(image_gray, dtype=np.float32)
 for i in range(len(zone_code)):
     if zone_code[i] == '1':
         zone_mask_visual[(distance >= thresholds[i]) & (distance < thresholds[i + 1])] = int(255 * (i + 1) / len(zone_code))
@@ -123,7 +123,3 @@ ax[2].axis('off')
 
 plt.tight_layout()
 plt.show()
-    
-
-
-
