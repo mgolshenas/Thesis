@@ -45,7 +45,8 @@ def fourier_concentric_zone_filter(image, zone_code):
 
     # Create log-magnitude spectrum for visualization
     spectrum = np.log(1 + np.abs(fshift_filtered)) # use log to compress the huge range of values in the spectrum so it’s visible
-    spectrum = 255 * (spectrum - spectrum.min()) / (spectrum.ptp() + 1e-8) #normalizing the image 
+    spectrum = 255 * (spectrum - spectrum.min()) / (np.ptp(spectrum) + 1e-8)
+
    #1e-8 to avoid dividing by zero in case the image has no variation (e.g., it's all black or white).
     spectrum = spectrum.astype(np.uint8)
 
@@ -53,7 +54,7 @@ def fourier_concentric_zone_filter(image, zone_code):
     f_ishift = np.fft.ifftshift(fshift_filtered)
     img_back = np.fft.ifft2(f_ishift)
     img_back = np.abs(img_back)
-    img_back = 255 * (img_back - img_back.min()) / (img_back.ptp() + 1e-8) #ptp(peak to peak)img_back.max() - img_back.min()
+    img_back = 255 * (img_back - img_back.min()) / (np.ptp(img_back) + 1e-8) #ptp(peak to peak)img_back.max() - img_back.min()
     img_back = img_back.astype(np.uint8)
 
     return img_back, spectrum
