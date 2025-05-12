@@ -1,3 +1,5 @@
+# Python --version 3.12.3
+
 import numpy as np
 import matplotlib.pyplot as plt
 from skimage import data
