@@ -3,7 +3,6 @@
     The original grayscale image 
     The log-magnitude spectrum of its Fourier Transform
 2.The_inverse_Fourier_Transform
-
 3. Module_Fourier_zone_filter
     Applies a custom Fourier filter based on concentric frequency zones.
     Parameters:
