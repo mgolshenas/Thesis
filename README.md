@@ -4,4 +4,11 @@
     The log-magnitude spectrum of its Fourier Transform
 
 
-3. 
+2. Module_Fourier_zone_filter
+    Applies a custom Fourier filter based on concentric frequency zones.
+    Parameters:
+    - image: 2D grayscale image (NumPy array)
+    - zone_code: String like '1010' (keep zones where value is '1')
+    Returns:
+    - Filtered image (NumPy array)
+    - Filtered spectrum (log-magnitude, float32)
