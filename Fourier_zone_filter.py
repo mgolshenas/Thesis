@@ -61,7 +61,7 @@ def fourier_concentric_zone_filter(image, zone_code):
     img_back = 255 * (img_back - img_back.min()) / (img_back.ptp() + 1e-8)
     img_back = img_back.astype(np.uint8)
 
-    return img_back, spectrum
+    return img_back
 
 
 # In[ ]:
