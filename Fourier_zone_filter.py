@@ -6,6 +6,8 @@
 #fourier_concentric_zone_filter
 
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 def fourier_concentric_zone_filter(image, zone_code):
     """
