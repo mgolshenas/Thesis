@@ -26,7 +26,7 @@ def process_and_display_fourier_zone_filter(zone_code):
     fshift = np.fft.fftshift(f)
     original_spectrum = np.log(1 + np.abs(fshift))
     original_spectrum = 255 * (original_spectrum - original_spectrum.min()) / (np.ptp(original_spectrum) + 1e-8)
-    original_spectrum = original_spectrum.astype(np.uint8)
+    original_spectrum = original_spectrum.astype(np.float32)
 
     # Build mask and apply filter
     mask = np.zeros_like(image_gray, dtype=np.float32)
