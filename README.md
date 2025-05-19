@@ -7,7 +7,7 @@
    Starts from the most central frequencies (low frequency) and gradually adds higher frequencies.
    Visualizes each step of the reconstruction alongside the individual sinusoidal (grating) component.
    Helps understand the contribution of each frequency to the overall image.
-3. Module_Fourier_zone_filter
+3.Module_Fourier_zone_filter
     Applies a custom Fourier filter based on concentric frequency zones.
     Parameters:
     - image: 2D grayscale image (NumPy array)
