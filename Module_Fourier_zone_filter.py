@@ -19,7 +19,7 @@ def fourier_concentric_zone_filter(image, zone_code):
 
     Returns:
     - Filtered image (NumPy array)
-    - Filtered spectrum (log-magnitude, uint8 for display)
+    - Filtered spectrum (log-magnitude, float32)
     """
     zone_code = str(zone_code)
     num_zones = len(zone_code)
@@ -41,7 +41,7 @@ def fourier_concentric_zone_filter(image, zone_code):
     thresholds = [max_radius * i / num_zones for i in range(num_zones + 1)]
 
     # Create mask
-    mask = np.zeros_like(img, dtype=np.uint8)
+    mask = np.zeros_like(img, dtype=np.float32)
     for i in range(num_zones):
         if zone_code[i] == '1':
             mask[(distance >= thresholds[i]) & (distance < thresholds[i + 1])] = 1
@@ -51,17 +51,17 @@ def fourier_concentric_zone_filter(image, zone_code):
 
     # Create log-magnitude spectrum for visualization
     spectrum = np.log(1 + np.abs(fshift_filtered))
-    spectrum = 255 * (spectrum - spectrum.min()) / (spectrum.ptp() + 1e-8)
-    spectrum = spectrum.astype(np.uint8)
+    spectrum = 255 * (spectrum - spectrum.min()) / (np.ptp(spectrum) + 1e-8)
+    spectrum = spectrum.astype(np.float32)
 
     # Inverse FFT to reconstruct image
     f_ishift = np.fft.ifftshift(fshift_filtered)
     img_back = np.fft.ifft2(f_ishift)
     img_back = np.abs(img_back)
-    img_back = 255 * (img_back - img_back.min()) / (img_back.ptp() + 1e-8)
-    img_back = img_back.astype(np.uint8)
+    img_back = 255 * (img_back - img_back.min()) / (no.ptp(img_back) + 1e-8)
+    img_back = img_back.astype(np.float32)
 
-    return img_back
+    return img_back, spectrum
 
 
 # In[ ]:
