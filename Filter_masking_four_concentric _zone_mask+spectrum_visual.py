@@ -78,7 +78,7 @@ def process_and_display_fourier_zone_filter(zone_code):
         label_y = cy - r / np.sqrt(2)
         ax[4].text(label_x, label_y, f'zone {i + 1}', color='black', fontsize=16, fontweight='bold')
 
-    # Add radius ticks/lines and text
+    # Add radius width/lines and text
     for t in normalized_thresholds[1:-1]:  # skip 0.0 and 1.0
         r = t * max_radius
         # Horizontal line
