@@ -1,4 +1,4 @@
-# fourier_synthesis.py
+# fourier_spectrum.py
 
 import numpy as np
 import matplotlib.pyplot as plt
