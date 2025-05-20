@@ -51,6 +51,7 @@
         filtered_spectrum: The masked frequency magnitude spectrum.
    
 9. GeoTIFF_Filtered_Spectrum
+    
     -Input & Output Setup
       Loads a GeoTIFF (DEM01.gtif.tif) using rasterio.
 
