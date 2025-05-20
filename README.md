@@ -51,3 +51,26 @@
         filtered_spectrum: The masked frequency magnitude spectrum.
    
 9. GeoTIFF_Filtered_Saved
+    -Input & Output Setup
+      Loads a GeoTIFF (DEM01.gtif.tif) using rasterio.
+
+      Creates an output folder for storing results.
+
+    -Zone Code Generation
+   Generates binary zone codes from 0001 to 1111 (i.e., integers 1–15).
+
+   Each 4-bit code controls which of the 4 frequency zones to keep.
+
+   - Processing Loop
+   For each zone_code:
+
+   Reads the input image.
+
+   Applies the process_and_display_fourier_zone_filter() function.
+
+   Saves:
+
+   filtered_img_{zone_code}.tif – Spatial-domain filtered image.
+
+   spectrum_{zone_code}.tif – Frequency spectrum after masking.
+    
