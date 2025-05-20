@@ -41,7 +41,7 @@
 
       -Computes the inverse FFT to reconstruct the filtered image.
 
-      - Spectrum Visualization:
+      -Spectrum Visualization:
 
         Returns the filtered spectrum image (for visualization).
 
