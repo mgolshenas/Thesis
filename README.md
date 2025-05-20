@@ -21,8 +21,7 @@
 7. Module_process_and_display_fourier_zone_filter
 
    Parameters
-         image: 2D NumPy array (image).
-
+         image: 2D NumPy array (image) 
          zone_code: 4-character binary string (e.g., "1100"), where each digit enables/disables a radial frequency band:
 
       Processing Steps
