@@ -38,7 +38,7 @@
 
       spectrum_{zone_code}.tif (Fourier spectrum).
    
- 4. Module_Fourier_zone_filter
+ 3. Module_Fourier_zone_filter
     
     Purpose:
       Reusable function to apply a concentric-zone frequency filter using a binary zone code.
@@ -56,37 +56,28 @@
 
       filtered_spectrum: Log-magnitude spectrum after filtering
    
-5. Module_process_and_display_fourier_zone_filter
+4. Module_process_and_display_fourier_zone_filter
+   Purpose:
+      Handles the full processing pipeline: FFT, zone filtering, inverse FFT, and spectrum visualization.
+      def process_and_display_fourier_zone_filter(image: np.ndarray, zone_code: str) -> Tuple[np.ndarray, np.ndarray]
+     Parameters:
 
-   Parameters
-         image: 2D NumPy array (image) 
-         zone_code: 4-character binary string (e.g., "1100"), where each digit enables/disables a radial frequency band:
+      image: Grayscale image (2D NumPy array).
 
-      Processing Steps
-      - Normalize & Convert Image: Converts the input image to float32 for processing.
+      zone_code: 4-digit binary string controlling which radial frequency bands to preserve.
 
-      - FFT & Frequency Masking:
+   Steps:
 
-      - Computes the 2D Fourier Transform.
+      Normalize and convert image.
+   
+      Compute FFT and shift spectrum.
 
-      - Constructs a Concentric frequency mask with 4 radial bands.
+      Generate frequency mask from zone_code.
 
-      - Keeps or discards bands based on the zone_code.
+      Apply mask, inverse FFT.
 
-   - Filter Application:
+      Return filtered image and spectrum for display.
 
-      -Applies the mask to the frequency spectrum.
-
-      -Computes the inverse FFT to reconstruct the filtered image.
-
-      -Spectrum Visualization:
-
-        Returns the filtered spectrum image (for visualization).
-
-        Returns
-        img_back: The filtered image (spatial domain).
-
-        filtered_spectrum: The masked frequency magnitude spectrum.
    
   6. The_inverse_Fourier_Transform
 
