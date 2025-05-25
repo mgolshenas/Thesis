@@ -50,11 +50,11 @@
 
       zone_code: 4-character binary string like '1010'.
     
-   Returns:
+  Returns:
 
-      filtered_img: Filtered image in the spatial domain.
+   filtered_img: Filtered image in the spatial domain.
 
-      filtered_spectrum: Log-magnitude spectrum after filtering.
+   filtered_spectrum: Log-magnitude spectrum after filtering
    
 5. Module_process_and_display_fourier_zone_filter
 
