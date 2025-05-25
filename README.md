@@ -57,6 +57,7 @@
       filtered_spectrum: Log-magnitude spectrum after filtering
    
 4. Module_process_and_display_fourier_zone_filter
+
    Purpose:
       Handles the full processing pipeline: FFT, zone filtering, inverse FFT, and spectrum visualization.
       def process_and_display_fourier_zone_filter(image: np.ndarray, zone_code: str) -> Tuple[np.ndarray, np.ndarray]
