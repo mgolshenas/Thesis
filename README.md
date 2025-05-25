@@ -81,6 +81,7 @@
 
    
   5. The_inverse_Fourier_Transform
+     
      Purpose:
       Visualizes how different frequency components reconstruct an image over time.
 
