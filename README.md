@@ -80,9 +80,16 @@
       Return filtered image and spectrum for display.
 
    
-  6. The_inverse_Fourier_Transform
+  5. The_inverse_Fourier_Transform
+     Purpose:
+      Visualizes how different frequency components reconstruct an image over time.
 
-      Image reconstruction progressively using pairs of symmetric frequency components from its 2D Fourier Transform.
-      Starts from the most central frequencies (low frequency) and gradually adds higher frequencies.
-      Visualizes each step of the reconstruction alongside the individual sinusoidal (grating) component.
-      Helps understand the contribution of each frequency to the overall image.
+      Main Functionalities:
+
+      Starts with low-frequency pairs and adds higher frequencies step-by-step.
+
+      Shows how each pair contributes to the final image.
+
+      Educational visualization for understanding image reconstruction from FFT.
+
+      
