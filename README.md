@@ -30,13 +30,13 @@
    spectrum_{zone_code}.tif – Frequency spectrum after masking.
  3. Module_Fourier_zone_filter
 
-   Applies a custom Fourier filter based on concentric frequency zones.
-    Parameters:
-    - image: 2D grayscale image (NumPy array)
-    - zone_code: String like '1010' (keep zones where value is '1')
-    Returns:
-    - Filtered image (NumPy array)
-    - Filtered spectrum (log-magnitude, float32)
+      Applies a custom Fourier filter based on concentric frequency zones.
+       Parameters:
+       - image: 2D grayscale image (NumPy array)
+       - zone_code: String like '1010' (keep zones where value is '1')
+       Returns:
+       - Filtered image (NumPy array)
+       - Filtered spectrum (log-magnitude, float32)
     
    
 4. Module_process_and_display_fourier_zone_filter
