@@ -5,10 +5,9 @@ import matplotlib.pyplot as plt
 
 image_filename = "Earth.png"
 
-def calculate_2dft(input):
-    ft = np.fft.ifftshift(input)
-    ft = np.fft.fft2(ft)
-    return np.fft.fftshift(ft)
+from Module_Fourier_Spectrum import calculate_2dft
+
+
 
 def calculate_2dift(input):
     ift = np.fft.ifftshift(input)
