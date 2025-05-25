@@ -1,9 +1,13 @@
 1. Fourier_Spectrum
 
-   This script reads an input image (Earth.png), converts it to grayscale, and computes its 2D Fourier Transform using NumPy. It then displays:
-   The original grayscale image 
-   The log-magnitude spectrum of its Fourier Transform
-   
+   Purpose:
+   Reads an image (Earth.png), converts it to grayscale, and computes its 2D Fourier Transform. It displays both the image and its frequency spectrum.
+   Main Functionalities:
+      cv2.imread to read the image.
+      np.fft.fft2 and np.fft.fftshift to compute the FFT.
+   Displays:
+      Grayscale image.
+      Log-magnitude Fourier spectrum.
 2. GeoTIFF_Filtered_Spectrum
     
     -Input & Output Setup
