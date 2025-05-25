@@ -38,10 +38,10 @@
 
       spectrum_{zone_code}.tif (Fourier spectrum).
  3. Module_Fourier_zone_filter
-   Purpose:
+    Purpose:
       Reusable function to apply a concentric-zone frequency filter using a binary zone code.
        def fourier_zone_filter(image: np.ndarray, zone_code: str) -> Tuple[np.ndarray, np.ndarray]
-   Parameters:
+    Parameters:
 
       image: 2D grayscale NumPy array.
 
