@@ -1,4 +1,4 @@
-1. Fourier_Spectrum
+1. Module_Fourier_Spectrum
 
    Purpose:
    Reads an image (Earth.png), converts it to grayscale, and computes its 2D Fourier Transform. It displays both the image and its frequency spectrum.
