@@ -11,30 +11,32 @@
       Grayscale image.
       Log-magnitude Fourier spectrum.
 
-3. GeoTIFF_Filtered_Spectrum
+2. GeoTIFF_Filtered_Spectrum
     
-    -Input & Output Setup
-      Loads a GeoTIFF (DEM01.gtif.tif) using rasterio.
+    Purpose:
+      Applies zone-based frequency filtering to a GeoTIFF image (DEM01.gtif.tif), saving filtered outputs for multiple frequency masks.
 
-      Creates an output folder for storing results.
+   Input & Output Setup:
 
-    -Zone Code Generation
-   Generates binary zone codes from 0001 to 1111 (i.e., integers 1–15).
+      Loads image via rasterio.
 
-   Each 4-bit code controls which of the 4 frequency zones to keep.
+   Creates output folder.
 
-   - Processing Loop
-   For each zone_code:
+      Zone Code Generation:
 
-   Reads the input image.
+      Generates 4-bit binary codes (0001 to 1111) to selectively enable frequency zones.
 
-   Applies the process_and_display_fourier_zone_filter() function.
+      Processing Loop:
+
+      For each zone_code:
+
+      Calls process_and_display_fourier_zone_filter() from the module.
 
    Saves:
 
-   filtered_img_{zone_code}.tif – Spatial-domain filtered image.
+      filtered_img_{zone_code}.tif (spatial image).
 
-   spectrum_{zone_code}.tif – Frequency spectrum after masking.
+      spectrum_{zone_code}.tif (Fourier spectrum).
  4. Module_Fourier_zone_filter
 
       Applies a custom Fourier filter based on concentric frequency zones.
