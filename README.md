@@ -2,13 +2,16 @@
 
    Purpose:
    Reads an image (Earth.png), converts it to grayscale, and computes its 2D Fourier Transform. It displays both the image and its frequency spectrum.
+
    Main Functionalities:
       cv2.imread to read the image.
       np.fft.fft2 and np.fft.fftshift to compute the FFT.
+
    Displays:
       Grayscale image.
       Log-magnitude Fourier spectrum.
-2. GeoTIFF_Filtered_Spectrum
+
+3. GeoTIFF_Filtered_Spectrum
     
     -Input & Output Setup
       Loads a GeoTIFF (DEM01.gtif.tif) using rasterio.
@@ -32,7 +35,7 @@
    filtered_img_{zone_code}.tif – Spatial-domain filtered image.
 
    spectrum_{zone_code}.tif – Frequency spectrum after masking.
- 3. Module_Fourier_zone_filter
+ 4. Module_Fourier_zone_filter
 
       Applies a custom Fourier filter based on concentric frequency zones.
        Parameters:
@@ -43,7 +46,7 @@
        - Filtered spectrum (log-magnitude, float32)
     
    
-4. Module_process_and_display_fourier_zone_filter
+5. Module_process_and_display_fourier_zone_filter
 
    Parameters
          image: 2D NumPy array (image) 
@@ -75,7 +78,7 @@
 
         filtered_spectrum: The masked frequency magnitude spectrum.
    
-  5. The_inverse_Fourier_Transform
+  6. The_inverse_Fourier_Transform
 
       Image reconstruction progressively using pairs of symmetric frequency components from its 2D Fourier Transform.
       Starts from the most central frequencies (low frequency) and gradually adds higher frequencies.
