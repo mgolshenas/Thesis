@@ -18,7 +18,7 @@ def apply_transformations(img, c=1.0, b=2.0):
     return {
         "mult": b * img + c,
         "quad": np.square(img) + c,
-        "log": np.log1p(np.abs(img)) + c,  # log1p for stability
+        "log": np.log1p(np.abs(img)) + c,  # log1p for stability plus c as costant number avoid negative/zero
         "sin": np.sin(img) + c
     }
 
