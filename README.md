@@ -11,7 +11,7 @@
       Grayscale image.
       Log-magnitude Fourier spectrum.
 
-2. GeoTIFF_Filtered_Spectrum
+2. GeoTIFF_Filtered_Spectrum - rasterio library required
     
     Purpose:
       Applies zone-based frequency filtering to a GeoTIFF image (DEM01.gtif.tif), saving filtered outputs for multiple frequency masks.
@@ -92,22 +92,22 @@
       Shows how each pair contributes to the final image.
 
       Educational visualization for understanding image reconstruction from FFT.
-6. Transformation_GEOTIFF_Filter
+6. Transformation_GEOTIFF_Filter - rasterio library required
    
       Processes a GeoTIFF using Fourier zone filtering. For each of 15 zone codes (binary values from '0001' to '1111', excluding '0000'), it       performs the following steps:
    
       - implement process_and_display_fourier_zone_filter module producing filtered image and filtered sepctrum
       - For each filtered result, four mathematical transformations are applied:
 
-      Multiplication: b * x + c
+            Multiplication: b * x + c
 
-      Quadratic: x² + c
+            Quadratic: x² + c
 
-      Logarithmic: log(1 + |x|) + c (numerically stable)
+            Logarithmic: log(1 + |x|) + c (numerically stable)
 
-      Sine: sin(x) + c
+            Sine: sin(x) + c
 
-      This results in 64 total feature images (4 transforms × 2 output types × 8 zone codes).
+         This results in 64 total feature images (4 transforms × 2 output types × 8 zone codes).
 
 
 
