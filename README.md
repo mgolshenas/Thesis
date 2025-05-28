@@ -98,14 +98,15 @@
    
       - implement process_and_display_fourier_zone_filter module producing filtered image and filtered sepctrum
       - For each filtered result, four mathematical transformations are applied:
-
-            Multiplication: b * x + c
+           Multiplication: b * x + c
 
             Quadratic: x² + c
 
             Logarithmic: log(1 + |x|) + c
 
             Sine: sin(x) + c
+
+
 
          This results in 64 total feature images (4 transforms × 2 output types × 8 zone codes).
 
