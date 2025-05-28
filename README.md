@@ -92,5 +92,10 @@
       Shows how each pair contributes to the final image.
 
       Educational visualization for understanding image reconstruction from FFT.
+6. Transformation_GEOTIFF_Filter
+      Processes a GeoTIFF using Fourier zone filtering. For each of 15 zone codes (binary values from '0001' to '1111', excluding '0000'), it       performs the following steps:
+
+ 
+
 
       
