@@ -101,8 +101,11 @@
   
         
            Multiplication: b * x + c
+        
            Quadratic: x² + c
+        
            Logarithmic: log(1 + |x|) + c
+        
            Sine: sin(x) + c
 
 
