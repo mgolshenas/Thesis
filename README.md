@@ -93,7 +93,22 @@
 
       Educational visualization for understanding image reconstruction from FFT.
 6. Transformation_GEOTIFF_Filter
+   
       Processes a GeoTIFF using Fourier zone filtering. For each of 15 zone codes (binary values from '0001' to '1111', excluding '0000'), it       performs the following steps:
+      -implement process_and_display_fourier_zone_filter module producing filtered image and filtered sepctrum
+      - For each filtered result, four mathematical transformations are applied:
+
+      Multiplication: b * x + c
+
+      Quadratic: x² + c
+
+      Logarithmic: log(1 + |x|) + c (numerically stable)
+
+      Sine: sin(x) + c
+
+      This results in 64 total feature images (4 transforms × 2 output types × 8 zone codes).
+
+
 
  
 
