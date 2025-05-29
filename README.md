@@ -58,40 +58,43 @@
    
 ## 4. Module_process_and_display_fourier_zone_filter
 
-   **Purpose**:
-      Handles the full processing pipeline: FFT, zone filtering, inverse FFT, and spectrum visualization.
-      def process_and_display_fourier_zone_filter(image: np.ndarray, zone_code: str) -> Tuple[np.ndarray, np.ndarray]
-     Parameters:
+**Purpose**:
 
-      image: Grayscale image (2D NumPy array).
+Handles the full processing pipeline: FFT, zone filtering, inverse FFT, and spectrum visualization.
+```
+def process_and_display_fourier_zone_filter(image: np.ndarray, zone_code: str) -> Tuple[np.ndarray, np.ndarray]
+```
+Parameters:
 
-      zone_code: 4-digit binary string controlling which radial frequency bands to preserve.
+- image: Grayscale image (2D NumPy array).
 
-   **Steps**:
+- zone_code: 4-digit binary string controlling which radial frequency bands to preserve.
 
-      Normalize and convert image.
-   
-      Compute FFT and shift spectrum.
+**Steps**:
 
-      Generate frequency mask from zone_code.
+- Normalize and convert image.
 
-      Apply mask, inverse FFT.
+- Compute FFT and shift spectrum.
 
-      Return filtered image and spectrum for display.
+- Generate frequency mask from zone_code.
+
+- Apply mask, inverse FFT.
+
+- Return filtered image and spectrum for display.
 
    
 ##  5. The_inverse_Fourier_Transform
      
-     **Purpose**:
-      Visualizes how different frequency components reconstruct an image over time.
+**Purpose**:
+Visualizes how different frequency components reconstruct an image over time.
 
-      **Main Functionalities**:
+**Main Functionalities**:
 
-      - Starts with low-frequency pairs and adds higher frequencies step-by-step.
+- Starts with low-frequency pairs and adds higher frequencies step-by-step.
 
-      - Shows how each pair contributes to the final image.
+- Shows how each pair contributes to the final image.
 
-      - Educational visualization for understanding image reconstruction from FFT.
+- Educational visualization for understanding image reconstruction from FFT.
 
 ## 6. Transformation_GEOTIFF_Filter - Rasterio library required
    
