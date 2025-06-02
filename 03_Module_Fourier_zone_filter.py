@@ -19,7 +19,7 @@ def fourier_concentric_zone_filter(image, zone_code):
 
     Returns:
     - Filtered image (NumPy array)
-    - Filtered spectrum (log-magnitude, float32)
+    - Filtered spectrum (log-magnitude, same dtype as input)
     """
     zone_code = str(zone_code)
     num_zones = len(zone_code)
