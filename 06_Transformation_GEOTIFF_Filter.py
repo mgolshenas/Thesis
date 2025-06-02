@@ -10,19 +10,31 @@ input_path = input_path.encode('ascii', 'ignore').decode()
 output_folder = r"C:\Users\M\Downloads\Output"
 os.makedirs(output_folder, exist_ok=True)
 
-zone_codes = [format(i, '04b') for i in range(1, 16)]
+zone_codes = [format(i, '04b') for i in range(1, 16)]  # '0001' to '1111' excluding '0000'
 
-# Simple transformations
-def apply_transformations(img, c=1.0, b=2.0):
-    img = img.astype(np.float32)
+# --- Transformation Functions ---
+def transform_multiplication(img, b=2.0, c=1.0):
+    return b * img + c
+
+def transform_quadratic(img, c=1.0):
+    return np.square(img) + c
+
+def transform_logarithmic(img, c=1.0):
+    return np.log1p(np.abs(img)) + c  # log(1 + |x|) + c
+
+def transform_sine(img, c=1.0):
+    return np.sin(img) + c
+
+# --- Master Function to Apply All Transformations ---
+def apply_all_transformations(img, c=1.0, b=2.0):
     return {
-        "mult": b * img + c,
-        "quad": np.square(img) + c,
-        "log": np.log1p(np.abs(img)) + c,  # log1p for stability plus c as costant number avoid negative/zero
-        "sin": np.sin(img) + c
+        "mult": transform_multiplication(img, b, c),
+        "quad": transform_quadratic(img, c),
+        "log": transform_logarithmic(img, c),
+        "sin": transform_sine(img, c)
     }
 
-# Read source image
+# --- Read and Process Image ---
 with rasterio.open(input_path) as src:
     image = src.read(1)
     profile = src.profile.copy()
@@ -34,7 +46,7 @@ with rasterio.open(input_path) as src:
         # Update profile for float32 output
         profile.update(dtype=rasterio.float32, count=1)
 
-        # Save original filtered images
+        # Save base outputs
         base_img_name = f"filtered_img_{zone_code}"
         base_spec_name = f"spectrum_{zone_code}"
 
@@ -45,7 +57,7 @@ with rasterio.open(input_path) as src:
             print(f"Saved: {path}")
 
             # Apply and save each transformation
-            transformed = apply_transformations(arr)
+            transformed = apply_all_transformations(arr)
 
             for tname, timg in transformed.items():
                 tpath = os.path.join(output_folder, f"{name}_{tname}.tif")
