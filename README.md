@@ -1,7 +1,8 @@
 ## 1. Module_Fourier_Spectrum
 
-   **Purpose**:
-   Reads an image (Earth.png), converts it to grayscale, and computes its 2D Fourier Transform. It displays both the image and its frequency spectrum.
+
+**   **Purpose**:
+**   Reads an image (Earth.png), converts it to grayscale, and computes its 2D Fourier Transform. It displays both the image and its frequency spectrum.
 
    **Main Functionalities**:
       cv2.imread to read the image.
@@ -13,8 +14,8 @@
 
 ## 2. GeoTIFF_Filtered_Spectrum - Rasterio library required
     
-    **Purpose**:
-      Applies zone-based frequency filtering to a GeoTIFF image (DEM01.gtif.tif), saving filtered outputs for multiple frequency masks.
+**    **Purpose**:
+**     Applies zone-based frequency filtering to a GeoTIFF image (DEM01.gtif.tif), saving filtered outputs for multiple frequency masks.
 
    **Input & Output Setup**:
 
@@ -40,8 +41,8 @@
    
  ## 3. Module_Fourier_zone_filter
     
-    **Purpose**:
-      Reusable function to apply a concentric-zone frequency filter using a binary zone code.
+**    **Purpose**:
+**     Reusable function to apply a concentric-zone frequency filter using a binary zone code.
       def fourier_zone_filter(image: np.ndarray, zone_code: str) -> Tuple[np.ndarray, np.ndarray]
     
     **Parameters**:
@@ -50,8 +51,8 @@
 
       zone_code: 4-character binary string like '1010'.
     
-    **Returns**:
-
+**    **Returns**:
+**
       filtered_img: Filtered image in the spatial domain.
 
       filtered_spectrum: Log-magnitude spectrum after filtering
@@ -80,7 +81,9 @@ Parameters:
 
 - Apply mask, inverse FFT.
 
-- Return filtered image and spectrum for display.
+**Returns**
+**   
+filtered image and spectrum for display.
 
    
 ##  5. The_inverse_Fourier_Transform
