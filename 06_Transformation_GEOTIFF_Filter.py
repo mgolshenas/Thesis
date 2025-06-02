@@ -37,23 +37,24 @@ def apply_all_transformations(img, c=1.0, b=2.0):
 # --- Read and Process Image ---
 with rasterio.open(input_path) as src:
     image = src.read(1)
-    profile = src.profile.copy()
+    base_profile = src.profile.copy()
 
     for zone_code in zone_codes:
         # Apply Fourier zone filter
         filtered_img, filtered_spectrum = process_and_display_fourier_zone_filter(image, zone_code)
 
-        # Update profile for float32 output
-        profile.update(dtype=rasterio.float32, count=1)
-
-        # Save base outputs
+        # Base output names
         base_img_name = f"filtered_img_{zone_code}"
         base_spec_name = f"spectrum_{zone_code}"
 
         for name, arr in [(base_img_name, filtered_img), (base_spec_name, filtered_spectrum)]:
+            # Write original filtered output
             path = os.path.join(output_folder, f"{name}.tif")
+            profile = base_profile.copy()
+            profile.update(dtype=str(arr.dtype), count=1)
+
             with rasterio.open(path, 'w', **profile) as dst:
-                dst.write(arr.astype(np.float32), 1)
+                dst.write(arr, 1)
             print(f"Saved: {path}")
 
             # Apply and save each transformation
@@ -61,8 +62,11 @@ with rasterio.open(input_path) as src:
 
             for tname, timg in transformed.items():
                 tpath = os.path.join(output_folder, f"{name}_{tname}.tif")
-                with rasterio.open(tpath, 'w', **profile) as dst:
-                    dst.write(timg.astype(np.float32), 1)
+                tprofile = base_profile.copy()
+                tprofile.update(dtype=str(timg.dtype), count=1)
+
+                with rasterio.open(tpath, 'w', **tprofile) as dst:
+                    dst.write(timg, 1)
                 print(f"Saved: {tpath}")
 
         gc.collect()
