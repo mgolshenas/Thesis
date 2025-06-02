@@ -16,24 +16,25 @@ zone_codes = [format(i, '04b') for i in range(1, 16)]
 # Read source image
 with rasterio.open(input_path) as src:
     image = src.read(1)
-    profile = src.profile.copy()
+    base_profile = src.profile.copy()
 
     for zone_code in zone_codes:
-        # Unpack only filtered image and filtered spectrum
+        # Get filtered image and spectrum
         filtered_img, filtered_spectrum = process_and_display_fourier_zone_filter(image, zone_code)
 
-        # Update profile for float32 output
-        profile.update(dtype=rasterio.float32, count=1)
-
         # Save filtered image
+        img_profile = base_profile.copy()
+        img_profile.update(dtype=str(filtered_img.dtype), count=1)
         output_img_path = os.path.join(output_folder, f"filtered_img_{zone_code}.tif")
-        with rasterio.open(output_img_path, 'w', **profile) as dst:
+        with rasterio.open(output_img_path, 'w', **img_profile) as dst:
             dst.write(filtered_img, 1)
 
-        # Save filtered spectrum image
+        # Save filtered spectrum
+        spec_profile = base_profile.copy()
+        spec_profile.update(dtype=str(filtered_spectrum.dtype), count=1)
         output_spec_path = os.path.join(output_folder, f"spectrum_{zone_code}.tif")
-        with rasterio.open(output_spec_path, 'w', **profile) as dst:
+        with rasterio.open(output_spec_path, 'w', **spec_profile) as dst:
             dst.write(filtered_spectrum, 1)
 
         print(f"Saved: {output_img_path} and {output_spec_path}")
-        gc.collect() 
+        gc.collect()
