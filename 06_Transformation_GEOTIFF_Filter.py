@@ -2,12 +2,28 @@ import numpy as np
 import rasterio
 import os
 import gc
+import configparser
+
 from Module_process_and_display_fourier_zone_filter import process_and_display_fourier_zone_filter
 
-# Input/output paths
-input_path = r"C:\Users\M\Downloads\DEM01.gtif.tif"
-input_path = input_path.encode('ascii', 'ignore').decode()
-output_folder = r"C:\Users\M\Downloads\Output"
+# --- Load Config ---
+config = configparser.ConfigParser()
+config.read('config.ini')
+print("Config sections found:", config.sections())
+
+# Validate config
+try:
+    input_path = config['Paths']['input_file']
+    output_folder = config['Paths']['output_folder']
+    b = float(config['TransformParams']['b'])
+    c = float(config['TransformParams']['c'])
+    zone_codes = config['Fourier']['zone_codes'].split(',')
+except KeyError as e:
+    raise KeyError(f"Missing config entry: {e}")
+except ValueError as e:
+    raise ValueError(f"Config value error: {e}")
+
+
 os.makedirs(output_folder, exist_ok=True)
 
 zone_codes = [format(i, '04b') for i in range(1, 16)]  # '0001' to '1111' excluding '0000'
