@@ -6,7 +6,6 @@ def process_and_display_fourier_zone_filter(image, zone_code):
     import numpy as np
 
     # Load image and convert to grayscale
-    image = data.astronaut()
     image_gray = np.mean(image, axis=2)  # Uses float64 by default
     zone_code = str(zone_code)
     num_zones = len(zone_code)
