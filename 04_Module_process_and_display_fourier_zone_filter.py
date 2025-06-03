@@ -2,16 +2,16 @@
 
 
 
-def process_and_display_fourier_zone_filter(image, zone_code):
-    import numpy as np
+import numpy as np
 
-    # Load image and convert to grayscale
-    image_gray = np.mean(image, axis=2)  # Uses float64 by default
+def process_and_display_fourier_zone_filter(image_array, zone_code):
+    image_gray = image_array.astype(np.float32)
+
     zone_code = str(zone_code)
     num_zones = len(zone_code)
 
     # Setup
-    rows, cols = image_gray.shape
+    rows, cols = image_array.shape
     cx, cy = cols // 2, rows // 2
     y, x = np.ogrid[:rows, :cols]
     distance = np.sqrt((x - cx)**2 + (y - cy)**2)
@@ -22,19 +22,17 @@ def process_and_display_fourier_zone_filter(image, zone_code):
     thresholds = [t * max_radius for t in normalized_thresholds]
 
     # Fourier Transform
-    f = np.fft.fft2(image_gray)
+    f = np.fft.fft2(image_array)
     fshift = np.fft.fftshift(f)
     original_spectrum = np.log1p(np.abs(fshift))
     original_spectrum = 255 * (original_spectrum - original_spectrum.min()) / (np.ptp(original_spectrum) + 1e-8)
 
     # Build mask and apply filter
-    mask = np.zeros_like(image_gray)
-    zone_mask_visual = np.zeros_like(image_gray)
+    mask = np.zeros_like(image_array)
     for i in range(num_zones):
         ring_mask = (distance >= thresholds[i]) & (distance < thresholds[i + 1])
         if zone_code[i] == '1':
             mask[ring_mask] = 1
-        zone_mask_visual[ring_mask] = int(255 * (i + 1) / num_zones)
 
     fshift_filtered = fshift * mask
 
@@ -48,12 +46,14 @@ def process_and_display_fourier_zone_filter(image, zone_code):
     img_back = np.abs(img_back)
     img_back = 255 * (img_back - img_back.min()) / (np.ptp(img_back) + 1e-8)
 
-    return img_back, filtered_spectrum
-    
-
-    
+    return img_back.astype(np.float32), filtered_spectrum.astype(np.float32)
 
 
 
 
 # In[ ]:
+    
+
+
+
+
