@@ -18,7 +18,7 @@ def process_and_display_fourier_zone_filter(image_array, zone_code):
 
     # Zone thresholds based on image width (not diagonal)
     max_radius = np.hypot(cx, cy)
-    normalized_thresholds = [0.0, 0.25, 0.5, 0.75, 1.0]
+    normalized_thresholds = [0.0, 0.25, 0.5, 0.75, 1.5]
     thresholds = [t * max_radius for t in normalized_thresholds]
 
     # Fourier Transform
