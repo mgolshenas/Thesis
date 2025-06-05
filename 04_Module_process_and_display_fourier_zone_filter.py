@@ -17,7 +17,7 @@ def process_and_display_fourier_zone_filter(image_array, zone_code):
     distance = np.sqrt((x - cx)**2 + (y - cy)**2)
 
     # Zone thresholds based on image width (not diagonal)
-    max_radius = 0.5 * cols
+    max_radius = np.hypot(cx, cy)
     normalized_thresholds = [0.0, 0.25, 0.5, 0.75, 1.0]
     thresholds = [t * max_radius for t in normalized_thresholds]
 
