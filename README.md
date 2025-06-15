@@ -119,6 +119,20 @@ Visualizes how different frequency components reconstruct an image over time.
 
          This results in 64 total feature images (4 transforms × 2 output types × 8 zone codes).
 
+## 7. Raster Sampling Function
+
+- **Purpose:** Sample values from multiple raster (.tif) files at given point locations.
+- **Inputs:**
+  - `outfolder`: Folder containing raster files.
+  - `gdf_points`: GeoDataFrame with point geometries where raster values will be sampled.
+- **Process:**
+  1. List all `.tif` raster files in the folder.
+  2. Extract `(x, y)` coordinates from the points.
+  3. For each raster, sample values at these points.
+  4. Store sampled values in a dictionary keyed by raster filename.
+  5. Convert the dictionary to a DataFrame.
+  6. Concatenate the raster values DataFrame with the original GeoDataFrame.
+- **Output:** A GeoDataFrame with the original points plus one column per raster containing sampled values.
 
 
  
