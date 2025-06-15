@@ -110,6 +110,10 @@ Processes a GeoTIFF using Fourier zone filtering. For each of 15 zone codes (`'0
 **Purpose**  
 Sample values from multiple raster (`.tif`) files at given point locations.
 
+```python
+def sample_rasters_at_points(outfolder: str, gdf_points: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+```
+
 **Inputs**
 - `outfolder`: Folder containing raster files
 - `gdf_points`: GeoDataFrame with point geometries
