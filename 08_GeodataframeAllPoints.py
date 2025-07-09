@@ -1,50 +1,63 @@
-import os
 import numpy as np
+import geopandas as gpd
+from shapely.geometry import Point
 import rasterio
-import pandas as pd
 
-# --- Load reference raster to define CRS, transform, and shape ---
+from Module_build_regression_matrix import build_regression_matrix  
+
+def get_num_points_pixel_points(raster_path, num_points=None):
+    """
+    Extracts the coordinates of valid pixels (non-nodata) in a raster.
+    Optionally limits the output to the first `num_points`.
+
+    Parameters:
+    -----------
+    raster_path : str
+        Path to the raster file.
+    num_points : int, optional
+        Number of points to return from the beginning.
+
+    Returns:
+    --------
+    geopandas.GeoDataFrame
+        GeoDataFrame of pixel center points with CRS matching the raster.
+    """
+    with rasterio.open(raster_path) as src:
+        band = src.read(1)
+        transform = src.transform
+        crs = src.crs
+
+        # Mask valid values (not equal to NoData)
+        if src.nodata is not None:
+            mask = band != src.nodata
+        else:
+            mask = ~np.isnan(band)
+
+        rows, cols = np.where(mask)
+        xs, ys = rasterio.transform.xy(transform, rows, cols, offset='center')
+        points = [Point(x, y) for x, y in zip(xs, ys)]
+
+        gdf = gpd.GeoDataFrame(geometry=points, crs=crs)
+
+    if num_points is not None:
+        gdf = gdf.head(num_points)
+
+    return gdf
+
+# --- INPUTS ---
 raster_path = r"C:\Users\MH\Downloads\MachineLearning\DEM01.gtif.tif"
+raster_folder = r"C:\Users\MH\Downloads\MachineLearning\Output"
+num_points = 900  # Use only the first num_points valid pixel points
 
-with rasterio.open(raster_path) as src:
-    raster_crs = src.crs
-    transform = src.transform
-    width = src.width
-    height = src.height
-    profile = src.profile
+# --- STEP 1: Create GeoDataFrame of the first N raster pixels ---
+subset_pixels_gdf = get_num_points_pixel_points(raster_path, num_points=num_points)
 
-# --- Read all raster files in the output directory ---
-raster_dir = r"C:\Users\MH\Downloads\MachineLearning\Output"
-raster_files = [f for f in os.listdir(raster_dir) if f.endswith('.tif')]
+# --- STEP 2: Use the module to build regression matrix ---
+regression_matrix = build_regression_matrix(raster_folder, subset_pixels_gdf)
 
-# Dictionary to hold raster arrays by filename (or any name you want)
-raster_arrays = {}
-
-for filename in raster_files:
-    path = os.path.join(raster_dir, filename)
-    with rasterio.open(path) as src:
-        # Make sure all rasters align (same shape and transform)
-        assert src.width == width and src.height == height, "Raster dimension mismatch"
-        assert src.transform == transform, "Raster transform mismatch"
-        
-        # Read first band only (modify if you want multiple bands)
-        raster_arrays[filename] = src.read(1)
-
-# --- Combine all rasters into a DataFrame ---
-# Flatten each raster to 1D array of pixel values
-data = {name: arr.flatten() for name, arr in raster_arrays.items()}
-
-df = pd.DataFrame(data)
-
-# Optionally, add pixel coordinates (x, y) for each pixel center
-cols, rows = np.meshgrid(np.arange(width), np.arange(height))
-x_coords, y_coords = rasterio.transform.xy(transform, rows, cols, offset='center')
-df['x'] = np.array(x_coords).flatten()
-df['y'] = np.array(y_coords).flatten()
-
-# Now df has columns: one per raster file plus x,y coords per pixel
+# --- STEP 3: Output ---
+print(regression_matrix.head())
+print(subset_pixels_gdf.head())
 
 # --- Preview ---
-print(df.head())
-print(df.shape)
-
+print(regression_matrix.shape)
