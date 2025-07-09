@@ -131,10 +131,10 @@ def sample_rasters_at_points(outfolder: str, gdf_points: gpd.GeoDataFrame) -> gp
 
 
 ## 8. Regression Matrix Builder Using First N Points
-Purpose
+**Purpose**
 Extracts the coordinates of the first n valid (non-NoData) pixels from a raster and builds a regression matrix by sampling values from other raster layers at those points.
 
-Inputs
+**Inputs**
 
 raster_path: Path to the reference raster file (target DEM).
 
@@ -142,7 +142,7 @@ raster_folder: Folder containing input rasters for features.
 
 num_points: Number of pixel points to extract (first N).
 
-Process
+**Process**
 
 Opens the reference raster using rasterio.
 
@@ -154,7 +154,7 @@ Constructs a GeoDataFrame from the first n points.
 
 Passes these points to build_regression_matrix() to create the feature matrix.
 
-Output
+**Output**
 
 regression_matrix: DataFrame of features at the selected pixel locations.
 
