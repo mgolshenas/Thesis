@@ -156,13 +156,11 @@ Passes these points to build_regression_matrix() to create the feature matrix.
 
 **Output**
 
-regression_matrix: DataFrame of features at the selected pixel locations.
+- regression_matrix: DataFrame of features at the selected pixel locations.
 
-subset_pixels_gdf: GeoDataFrame of the sampled pixel coordinates.
+- subset_pixels_gdf: GeoDataFrame of the sampled pixel coordinates.
 
-python
-Copy
-Edit
+
 
 
 
