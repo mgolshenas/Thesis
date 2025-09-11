@@ -160,7 +160,43 @@ Passes these points to build_regression_matrix() to create the feature matrix.
 
 - subset_pixels_gdf: GeoDataFrame of the sampled pixel coordinates.
 
+## 9. Pixel-Based Regression Matrix Builder
 
+**Purpose**  
+Provides a function to extract pixel center coordinates from a raster (ignoring NoData values) and use them 
+to build a regression matrix from other raster layers.
+
+**Key Function**
+```python
+def get_num_points_pixel_points(raster_path, num_points=None)
+```
+- Extracts all valid pixel centers from the raster.
+- Optionally limits the number of points to the first `num_points`.
+- Returns a GeoDataFrame of points with CRS matching the raster.
+
+**Process Overview**
+1. **Open Raster**
+   - Reads raster band and metadata (transform, CRS).
+   - Identifies valid (non-NoData) pixel locations.
+
+2. **Generate Points**
+   - Converts pixel indices to real-world coordinates using `rasterio.transform.xy`.
+   - Creates a GeoDataFrame of points.
+
+3. **Optional Subset**
+   - Keeps only the first `num_points` points if specified.
+
+4. **Build Regression Matrix**
+   - Calls `build_regression_matrix()` with the generated points and raster folder.
+   - Produces a feature matrix of sampled raster values at those locations.
+
+5. **Outputs**
+   - `regression_matrix`: DataFrame of sampled values across rasters.
+   - `subset_pixels_gdf`: GeoDataFrame of sampled pixel coordinates.
+
+**Usage Example**
+- Input: DEM raster path, raster folder with filtered outputs, and desired number of points (`num_points=900`).
+- Output: Head of regression matrix and sampled point GeoDataFrame are printed along with matrix shape.
 
 ## 10. Full Raster Filtering and Random Forest Pipeline
 
@@ -242,40 +278,3 @@ Evaluates performance using RMSE and R².
 
 - Evaluation metrics (RMSE and R²)
 
-## 12. Pixel-Based Regression Matrix Builder
-
-**Purpose**  
-Provides a function to extract pixel center coordinates from a raster (ignoring NoData values) and use them 
-to build a regression matrix from other raster layers.
-
-**Key Function**
-```python
-def get_num_points_pixel_points(raster_path, num_points=None)
-```
-- Extracts all valid pixel centers from the raster.
-- Optionally limits the number of points to the first `num_points`.
-- Returns a GeoDataFrame of points with CRS matching the raster.
-
-**Process Overview**
-1. **Open Raster**
-   - Reads raster band and metadata (transform, CRS).
-   - Identifies valid (non-NoData) pixel locations.
-
-2. **Generate Points**
-   - Converts pixel indices to real-world coordinates using `rasterio.transform.xy`.
-   - Creates a GeoDataFrame of points.
-
-3. **Optional Subset**
-   - Keeps only the first `num_points` points if specified.
-
-4. **Build Regression Matrix**
-   - Calls `build_regression_matrix()` with the generated points and raster folder.
-   - Produces a feature matrix of sampled raster values at those locations.
-
-5. **Outputs**
-   - `regression_matrix`: DataFrame of sampled values across rasters.
-   - `subset_pixels_gdf`: GeoDataFrame of sampled pixel coordinates.
-
-**Usage Example**
-- Input: DEM raster path, raster folder with filtered outputs, and desired number of points (`num_points=900`).
-- Output: Head of regression matrix and sampled point GeoDataFrame are printed along with matrix shape.
