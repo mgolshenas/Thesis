@@ -160,7 +160,7 @@ Passes these points to build_regression_matrix() to create the feature matrix.
 
 - subset_pixels_gdf: GeoDataFrame of the sampled pixel coordinates.
 
-## 9. Random Forest Regression on Raster Values
+## 11. Random Forest Regression on Raster Values
 **Purpose** 
 Trains a Random Forest model to predict raster values (e.g., DEM) using features extracted from other rasters at sampled points.
 
