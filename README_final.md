@@ -105,7 +105,7 @@ Processes a GeoTIFF using Fourier zone filtering. For each of 15 zone codes (`'0
 
 ---
 
-## 7. Raster Sampling Function
+## 7. Module Raster Sampling Function
 
 **Purpose**  
 Sample values from multiple raster (`.tif`) files at given point locations.
@@ -130,7 +130,7 @@ def sample_rasters_at_points(outfolder: str, gdf_points: gpd.GeoDataFrame) -> gp
 - GeoDataFrame with original points and one column per raster containing sampled values
 
 
-## 8. Regression Matrix Builder Using First N Points
+## 8. Module Regression Matrix Builder Using First N Points
 **Purpose**
 Extracts the coordinates of the first n valid (non-NoData) pixels from a raster and builds a regression matrix by sampling values from other raster layers at those points.
 
