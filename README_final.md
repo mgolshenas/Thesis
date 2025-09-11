@@ -160,7 +160,7 @@ Passes these points to build_regression_matrix() to create the feature matrix.
 
 - subset_pixels_gdf: GeoDataFrame of the sampled pixel coordinates.
 
-## 9. Pixel-Based Regression Matrix Builder
+## 9.  Geodataframe All Points Regression Matrix Builder
 
 **Purpose**  
 Provides a function to extract pixel center coordinates from a raster (ignoring NoData values) and use them 
