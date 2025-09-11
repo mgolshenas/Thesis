@@ -160,35 +160,7 @@ Passes these points to build_regression_matrix() to create the feature matrix.
 
 - subset_pixels_gdf: GeoDataFrame of the sampled pixel coordinates.
 
-## 11. Random Forest Regression on Raster Values
-**Purpose** 
-Trains a Random Forest model to predict raster values (e.g., DEM) using features extracted from other rasters at sampled points.
 
-**Inputs**
-
-regression_matrix: Feature matrix (X).
-
-subset_pixels_gdf: Coordinates of sampled points.
-
-raster_path: Path to the target raster (DEM).
-
-**Process**
-
-Uses sample_raster_at_points() to extract DEM values at sampled points.
-
-Selects numeric columns from the regression matrix.
-
-Splits data into training and testing sets.
-
-Runs GridSearchCV to optimize Random Forest hyperparameters.
-
-Evaluates performance using RMSE and R².
-
-**Output**
-
-- Trained Random Forest model (best_rf)
-
-- Evaluation metrics (RMSE and R²)
 
 ## 10. Full Raster Filtering and Random Forest Pipeline
 
@@ -240,3 +212,32 @@ to predict raster values.
 
 10. **Timing**
     - Measures and prints total execution time.
+## 11. Random Forest Regression on Raster Values
+**Purpose** 
+Trains a Random Forest model to predict raster values (e.g., DEM) using features extracted from other rasters at sampled points.
+
+**Inputs**
+
+regression_matrix: Feature matrix (X).
+
+subset_pixels_gdf: Coordinates of sampled points.
+
+raster_path: Path to the target raster (DEM).
+
+**Process**
+
+Uses sample_raster_at_points() to extract DEM values at sampled points.
+
+Selects numeric columns from the regression matrix.
+
+Splits data into training and testing sets.
+
+Runs GridSearchCV to optimize Random Forest hyperparameters.
+
+Evaluates performance using RMSE and R².
+
+**Output**
+
+- Trained Random Forest model (best_rf)
+
+- Evaluation metrics (RMSE and R²)
