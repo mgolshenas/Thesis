@@ -278,3 +278,57 @@ Evaluates performance using RMSE and R².
 
 - Evaluation metrics (RMSE and R²)
 
+## 12. U-Net Regression on Raster Values
+
+**Purpose**
+- Trains an Encoder-Decoder (U-Net style) 2D CNN to predict raster values (e.g., DEM) using local patch features extracted from the raster at sampled points.
+
+**Inputs**
+
+X_patches: 2D patches extracted from the DEM raster (input features).
+
+y_patches: Corresponding target patches from the DEM raster (output values).
+
+subset_pixels_gdf: Coordinates of sampled points.
+
+raster_path: Path to the target raster (DEM).
+
+patch_size: Size of the 2D patches to extract.
+
+**Process**
+
+Generates random sampling points within the raster bounds.
+
+Loops over digit positions and target values to filter rasters (optional).
+
+Builds a regression matrix from filtered rasters and sampled points.
+
+Extracts 2D patches centered at sampled points from the DEM raster.
+
+Converts patches to arrays with shape (patch_size, patch_size, 1).
+
+Splits patches into training and testing sets.
+
+Defines an Encoder-Decoder (U-Net style) CNN:
+
+Encoder: Convolutional layers, max pooling, and dropout.
+
+Decoder: UpSampling layers, convolution, concatenation with encoder features, and resizing using Lambda.
+
+Output: Linear activation for regression.
+
+Compiles the model using Adam optimizer, mean squared error (MSE) loss, and mean absolute error (MAE) metric.
+
+Trains the model on training patches with validation on test patches.
+
+Evaluates performance using RMSE and R².
+
+**Output**
+
+- Trained Encoder-Decoder 2D CNN model (model).
+
+- Evaluation metrics:
+
+- RMSE (Root Mean Squared Error)
+
+- R² (Coefficient of Determination)
