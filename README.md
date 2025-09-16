@@ -317,11 +317,11 @@ raster_path: Path to the target raster (DEM).
 
 10.Output: Linear activation for regression.
 
-11.Compiles the model using Adam optimizer, mean squared error (MSE) loss, and mean absolute error (MAE) metric.
+11. Compiles the model using Adam optimizer, mean squared error (MSE) loss, and mean absolute error (MAE) metric.
 
-12.Trains the model on training patches with validation on test patches.
+12. Trains the model on training patches with validation on test patches.
 
-13.Evaluates performance using RMSE and R².
+13. Evaluates performance using RMSE and R².
 
 **Output**
 
