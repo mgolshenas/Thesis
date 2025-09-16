@@ -262,15 +262,15 @@ raster_path: Path to the target raster (DEM).
 
 **Process**
 
-Uses sample_raster_at_points() to extract DEM values at sampled points.
+1. Uses sample_raster_at_points() to extract DEM values at sampled points.
 
-Selects numeric columns from the regression matrix.
+2. Selects numeric columns from the regression matrix.
 
-Splits data into training and testing sets.
+3. Splits data into training and testing sets.
 
-Runs GridSearchCV to optimize Random Forest hyperparameters.
+4. Runs GridSearchCV to optimize Random Forest hyperparameters.
 
-Evaluates performance using RMSE and R².
+5. Evaluates performance using RMSE and R².
 
 **Output**
 
@@ -285,43 +285,43 @@ Evaluates performance using RMSE and R².
 
 **Inputs**
 
-X_patches: 2D patches extracted from the DEM raster (input features).
+ X_patches: 2D patches extracted from the DEM raster (input features).
 
-y_patches: Corresponding target patches from the DEM raster (output values).
+ y_patches: Corresponding target patches from the DEM raster (output values).
 
-subset_pixels_gdf: Coordinates of sampled points.
+ subset_pixels_gdf: Coordinates of sampled points.
 
-raster_path: Path to the target raster (DEM).
+ raster_path: Path to the target raster (DEM).
 
-patch_size: Size of the 2D patches to extract.
+ patch_size: Size of the 2D patches to extract.
 
 **Process**
 
-Generates random sampling points within the raster bounds.
+1. Generates random sampling points within the raster bounds.
 
-Loops over digit positions and target values to filter rasters (optional).
+2. Loops over digit positions and target values to filter rasters (optional).
 
-Builds a regression matrix from filtered rasters and sampled points.
+3. Builds a regression matrix from filtered rasters and sampled points.
 
-Extracts 2D patches centered at sampled points from the DEM raster.
+4. Extracts 2D patches centered at sampled points from the DEM raster.
 
-Converts patches to arrays with shape (patch_size, patch_size, 1).
+5. Converts patches to arrays with shape (patch_size, patch_size, 1).
 
-Splits patches into training and testing sets.
+6. Splits patches into training and testing sets.
 
-Defines an Encoder-Decoder (U-Net style) CNN:
+7. Defines an Encoder-Decoder (U-Net style) CNN:
 
-Encoder: Convolutional layers, max pooling, and dropout.
+8. Encoder: Convolutional layers, max pooling, and dropout.
 
-Decoder: UpSampling layers, convolution, concatenation with encoder features, and resizing using Lambda.
+9. Decoder: UpSampling layers, convolution, concatenation with encoder features, and resizing using Lambda.
 
-Output: Linear activation for regression.
+10.Output: Linear activation for regression.
 
-Compiles the model using Adam optimizer, mean squared error (MSE) loss, and mean absolute error (MAE) metric.
+11.Compiles the model using Adam optimizer, mean squared error (MSE) loss, and mean absolute error (MAE) metric.
 
-Trains the model on training patches with validation on test patches.
+12.Trains the model on training patches with validation on test patches.
 
-Evaluates performance using RMSE and R².
+13.Evaluates performance using RMSE and R².
 
 **Output**
 
