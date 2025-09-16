@@ -315,7 +315,7 @@ raster_path: Path to the target raster (DEM).
 
 9. Decoder: UpSampling layers, convolution, concatenation with encoder features, and resizing using Lambda.
 
-10.Output: Linear activation for regression.
+10. Output: Linear activation for regression.
 
 11. Compiles the model using Adam optimizer, mean squared error (MSE) loss, and mean absolute error (MAE) metric.
 
