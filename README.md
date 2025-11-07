@@ -278,57 +278,46 @@ raster_path: Path to the target raster (DEM).
 
 - Evaluation metrics (RMSE and R²)
 
-## 12. U-Net Regression on Raster Values
+## 12. Module_CNN_Raster_Prediction
 
 **Purpose**
-- Trains an Encoder-Decoder (U-Net style) 2D CNN to predict raster values (e.g., DEM) using local patch features extracted from the raster at sampled points.
+Trains a Convolutional Neural Network (CNN) model to predict a Digital Elevation Model (DEM) raster using multiple filtered raster layers as input features.
+The script builds a regression matrix, extracts edge-aware patches, trains the model, and generates a full predicted raster output.
 
-**Inputs**
+**Process Overview**
 
- X_patches: 2D patches extracted from the DEM raster (input features).
+Load all input raster files from the specified folder.
 
- y_patches: Corresponding target patches from the DEM raster (output values).
+Read the reference DEM raster and extract its metadata and extent.
 
- subset_pixels_gdf: Coordinates of sampled points.
+Generate random sampling points across the DEM extent.
 
- raster_path: Path to the target raster (DEM).
+Build a regression matrix from all input rasters at sampled point locations.
 
- patch_size: Size of the 2D patches to extract.
+Normalize input rasters and target DEM values.
 
-**Process**
+Extract image patches (edge-aware) for each sampled point.
 
-1. Generates random sampling points within the raster bounds.
+Split data into training and validation sets.
 
-2. Loops over digit positions and target values to filter rasters (optional).
+Define and train a CNN model (encoder-decoder with skip connections).
 
-3. Builds a regression matrix from filtered rasters and sampled points.
+Predict DEM values for the entire raster using batched edge-aware patches.
 
-4. Extracts 2D patches centered at sampled points from the DEM raster.
+Compute evaluation metrics (RMSE and R²).
 
-5. Converts patches to arrays with shape (patch_size, patch_size, 1).
-
-6. Splits patches into training and testing sets.
-
-7. Defines an Encoder-Decoder (U-Net style) CNN:
-
-8. Encoder: Convolutional layers, max pooling, and dropout.
-
-9. Decoder: UpSampling layers, convolution, concatenation with encoder features, and resizing using Lambda.
-
-10. Output: Linear activation for regression.
-
-11. Compiles the model using Adam optimizer, mean squared error (MSE) loss, and mean absolute error (MAE) metric.
-
-12. Trains the model on training patches with validation on test patches.
-
-13. Evaluates performance using RMSE and R².
+Save the predicted DEM raster as GeoTIFF with the original spatial profile.
 
 **Output**
 
-- Trained Encoder-Decoder 2D CNN model (model).
+Console logs for data shapes, model training progress, and evaluation scores.
 
-- Evaluation metrics:
+Saved predicted DEM raster (DEM01_predicted.tif).
 
-- RMSE (Root Mean Squared Error)
+Reported metrics:
 
-- R² (Coefficient of Determination)
+Root Mean Squared Error (RMSE)
+
+Coefficient of Determination (R²)
+
+Total execution time printed at the end.
