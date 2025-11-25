@@ -26,7 +26,7 @@ os.makedirs(filtered_dir, exist_ok=True)
 with rasterio.open(raster_path) as src:
     bounds, crs = src.bounds, src.crs
 
-num_points = 1000
+num_points = 10000
 np.random.seed(42)
 random_x = np.random.uniform(bounds.left, bounds.right, num_points)
 random_y = np.random.uniform(bounds.bottom, bounds.top, num_points)
