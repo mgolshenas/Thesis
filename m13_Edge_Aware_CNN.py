@@ -36,7 +36,7 @@ elevation = np.where(np.isfinite(elevation), elevation, np.nan)
 y_min, y_max = np.nanmin(elevation), np.nanmax(elevation)
 
 # --- Generate random sample points ---
-num_points = 1000
+num_points = 10000
 np.random.seed(42)
 random_x = np.random.uniform(bounds.left, bounds.right, num_points)
 random_y = np.random.uniform(bounds.bottom, bounds.top, num_points)
